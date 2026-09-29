@@ -213,6 +213,9 @@ fun AppRow(
     }
 }
 
+/** "1 app analisado" / "3 apps analisados". */
+fun plural(count: Int, one: String, many: String): String = if (count == 1) "1 $one" else "$count $many"
+
 fun formatDateTime(millis: Long): String =
     SimpleDateFormat("dd/MM 'às' HH:mm", Locale("pt", "BR")).format(Date(millis))
 

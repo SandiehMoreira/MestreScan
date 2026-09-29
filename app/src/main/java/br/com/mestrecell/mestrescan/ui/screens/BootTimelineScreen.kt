@@ -31,6 +31,7 @@ import br.com.mestrecell.mestrescan.ui.SectionCard
 import br.com.mestrecell.mestrescan.ui.UiState
 import br.com.mestrecell.mestrescan.ui.WhatsAppCta
 import br.com.mestrecell.mestrescan.ui.formatDateTime
+import br.com.mestrecell.mestrescan.ui.plural
 import br.com.mestrecell.mestrescan.ui.theme.RiskColors
 
 @Composable
@@ -107,7 +108,7 @@ fun BootTimelineScreen(state: UiState, viewModel: MainViewModel) {
                     AppRow(
                         packageName = pkg,
                         title = labels[pkg] ?: pkg,
-                        subtitle = "Abriu sozinho em ${ev.bootsWithLaunch} de ${ev.totalBoots} vez(es) que o celular ligou" +
+                        subtitle = "Abriu sozinho em ${ev.bootsWithLaunch} de ${plural(ev.totalBoots, "vez", "vezes")} que o celular ligou" +
                             " · a partir de ${ev.firstSeconds} s" +
                             (if (ev.adScreen) " · tela de propaganda" else ""),
                     ) {

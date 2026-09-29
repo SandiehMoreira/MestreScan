@@ -107,7 +107,7 @@ private fun RemovalSummaryDialog(removal: RemovalQueue, onDismiss: () -> Unit) {
         },
         text = {
             val lines = buildList {
-                if (attempted > 0) add("${removal.removed} de $attempted app(s) removido(s).")
+                if (attempted > 0) add("${removal.removed} de ${plural(attempted, "app removido", "apps removidos")}.")
                 if (removal.needsAdminStep.isNotEmpty()) {
                     add(
                         "Precisam de um passo antes (são administradores do celular): " +

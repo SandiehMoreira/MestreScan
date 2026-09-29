@@ -56,6 +56,7 @@ import br.com.mestrecell.mestrescan.ui.StoreFooter
 import br.com.mestrecell.mestrescan.ui.UiState
 import br.com.mestrecell.mestrescan.ui.WhatsAppCta
 import br.com.mestrecell.mestrescan.ui.formatDateTime
+import br.com.mestrecell.mestrescan.ui.plural
 import br.com.mestrecell.mestrescan.ui.theme.RiskColors
 
 @Composable
@@ -79,7 +80,8 @@ fun HomeScreen(state: UiState, viewModel: MainViewModel) {
                 text = when {
                     last == null -> "Toque em Escanear para analisar os apps do celular."
                     last.danger + last.suspect == 0 -> "Último scan: ${formatDateTime(last.at)} — nenhum suspeito ✅"
-                    else -> "Último scan: ${formatDateTime(last.at)} — ${last.danger} perigoso(s), ${last.suspect} suspeito(s)"
+                    else -> "Último scan: ${formatDateTime(last.at)} — " +
+                        "${plural(last.danger, "perigoso", "perigosos")}, ${plural(last.suspect, "suspeito", "suspeitos")}"
                 },
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,

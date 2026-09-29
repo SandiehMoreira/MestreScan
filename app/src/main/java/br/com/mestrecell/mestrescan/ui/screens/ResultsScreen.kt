@@ -39,6 +39,7 @@ import br.com.mestrecell.mestrescan.ui.SectionCard
 import br.com.mestrecell.mestrescan.ui.StoreFooter
 import br.com.mestrecell.mestrescan.ui.UiState
 import br.com.mestrecell.mestrescan.ui.WhatsAppCta
+import br.com.mestrecell.mestrescan.ui.plural
 import br.com.mestrecell.mestrescan.ui.theme.RiskColors
 
 @Composable
@@ -54,22 +55,25 @@ fun ResultsScreen(state: UiState, viewModel: MainViewModel, onRemove: (List<Inst
                 SectionCard(borderColor = RiskColors.safe) {
                     Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = RiskColors.safe, modifier = Modifier.size(40.dp))
                     Text("Nenhum app suspeito", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    val analyzed = state.results.orEmpty().size
                     Text(
                         "Seu celular está protegido pela ${stringResource(R.string.brand_store)}. " +
-                            "${state.results.orEmpty().size} apps analisados.",
+                            if (analyzed == 0) "Não há apps baixados, só os do sistema."
+                            else "${plural(analyzed, "app analisado", "apps analisados")}.",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             } else {
                 SectionCard(borderColor = if (dangers.isNotEmpty()) RiskColors.danger else RiskColors.suspect) {
                     Text(
-                        "Encontramos ${suspects.size} app(s) para revisar",
+                        "Encontramos ${plural(suspects.size, "app", "apps")} para revisar",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
-                        "${dangers.size} perigoso(s) · ${suspects.size - dangers.size} suspeito(s) · " +
-                            "${state.results.orEmpty().size} analisados",
+                        plural(dangers.size, "perigoso", "perigosos") + " · " +
+                            plural(suspects.size - dangers.size, "suspeito", "suspeitos") + " · " +
+                            plural(state.results.orEmpty().size, "analisado", "analisados"),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(

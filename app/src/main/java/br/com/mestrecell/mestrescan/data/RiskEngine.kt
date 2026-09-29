@@ -47,7 +47,7 @@ class RiskEngine(private val rules: RuleSet) {
 
         val days = TimeUnit.MILLISECONDS.toDays(now - app.installedAt)
         if (days <= rules.recentInstallDays) {
-            add("recent_install", if (days == 0L) "Instalado hoje" else "Instalado há $days dia(s)")
+            add("recent_install", when (days) { 0L -> "Instalado hoje"; 1L -> "Instalado ontem"; else -> "Instalado há $days dias" })
         }
 
         if (boot != null && boot.bootsWithLaunch > 0) {
