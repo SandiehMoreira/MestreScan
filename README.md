@@ -78,10 +78,18 @@ Instalar num celular com depuração USB:
 ~/android-dev/sdk/platform-tools/adb install -r app/build/outputs/apk/mestrecell/debug/app-mestrecell-debug.apk
 ```
 
+## Publicar para download no site
+
+Passo a passo completo (chave de assinatura, release no GitHub e botão no site):
+**[docs/PUBLICAR-DOWNLOAD.md](docs/PUBLICAR-DOWNLOAD.md)**
+
+Resumo: `./scripts/publicar-release.sh "o que mudou"` gera o APK assinado e publica
+em `https://github.com/SandiehMoreira/mestrescan/releases/latest/download/MestreScan.apk`.
+
 ## Próximos passos
 
 - Testar em 5–10 celulares reais com propaganda (ajustar pesos e o tempo de janela).
 - Sincronizar `rules.json` / lista de maliciosos com o backend do Projeto 1.
 - Monitor de novas instalações.
 - Consumo de dados por app (bateria por app não é acessível a apps comuns).
-- Assinatura de release + política de privacidade para a Play Store.
+- Política de privacidade e envio para a Play Store.

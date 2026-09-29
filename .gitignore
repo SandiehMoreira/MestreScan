@@ -7,3 +7,9 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+
+# Chave de assinatura: NUNCA subir para o GitHub
+keystore.properties
+*.jks
+*.keystore
+release/
