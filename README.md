@@ -84,7 +84,7 @@ Passo a passo completo (chave de assinatura, release no GitHub e botão no site)
 **[docs/PUBLICAR-DOWNLOAD.md](docs/PUBLICAR-DOWNLOAD.md)**
 
 Resumo: `./scripts/publicar-release.sh "o que mudou"` gera o APK assinado e publica
-em `https://github.com/SandiehMoreira/mestrescan/releases/latest/download/MestreScan.apk`.
+em `https://github.com/SandiehMoreira/MestreScan/releases/latest/download/MestreScan.apk`.
 
 ## Próximos passos
 

@@ -15,7 +15,7 @@ site da MestreCell (`~/Documents/Site-MestreCell`).
 Link fixo de download (não muda entre versões):
 
 ```
-https://github.com/SandiehMoreira/mestrescan/releases/latest/download/MestreScan.apk
+https://github.com/SandiehMoreira/MestreScan/releases/latest/download/MestreScan.apk
 ```
 
 O repositório é público, então esse link funciona para qualquer pessoa.
@@ -35,7 +35,7 @@ Tudo já está neste Mac:
 Em todos os comandos abaixo, abra o Terminal na pasta do projeto:
 
 ```sh
-cd ~/Documents/app-tiravirus
+cd ~/Documents/MestreScan
 export JAVA_HOME=~/android-dev/jdk/Contents/Home
 ```
 
@@ -124,7 +124,7 @@ O script:
 4. cria a release `v0.1.0` no GitHub com o arquivo **`MestreScan.apk`**;
 5. mostra o link fixo de download.
 
-Confira em: https://github.com/SandiehMoreira/mestrescan/releases
+Confira em: https://github.com/SandiehMoreira/MestreScan/releases
 
 <details>
 <summary>Fazer à mão, sem o script</summary>
@@ -153,7 +153,7 @@ Dentro de `siteConfig`, acrescente:
 
 ```ts
   mestrescanDownloadUrl:
-    "https://github.com/SandiehMoreira/mestrescan/releases/latest/download/MestreScan.apk",
+    "https://github.com/SandiehMoreira/MestreScan/releases/latest/download/MestreScan.apk",
 ```
 
 ### 4.2 — Criar `src/components/sections/MestreScanSection.tsx`
@@ -290,7 +290,7 @@ Depois de instalar, peça para o cliente:
 ## Lançar uma atualização (resumo)
 
 ```sh
-cd ~/Documents/app-tiravirus
+cd ~/Documents/MestreScan
 export JAVA_HOME=~/android-dev/jdk/Contents/Home
 # 1. aumentar versionCode e versionName em app/build.gradle.kts
 git add -A && git commit -m "Versão 0.2.0" && git push

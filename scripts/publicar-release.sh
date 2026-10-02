@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.."
 
 export JAVA_HOME="${JAVA_HOME:-$HOME/android-dev/jdk/Contents/Home}"
 APKSIGNER="$HOME/android-dev/sdk/build-tools/35.0.0/apksigner"
-REPO="SandiehMoreira/mestrescan"
+REPO="SandiehMoreira/MestreScan"
 NOTES="${1:-Nova versão do MestreScan.}"
 
 if [ ! -f keystore.properties ]; then
