@@ -86,6 +86,13 @@ Passo a passo completo (chave de assinatura, release no GitHub e botão no site)
 Resumo: `./scripts/publicar-release.sh "o que mudou"` gera o APK assinado e publica
 em `https://github.com/SandiehMoreira/MestreScan/releases/latest/download/MestreScan.apk`.
 
+## Ofertas por notificação
+
+A loja pode mandar ofertas para quem tem o app (Firebase, projeto `mestrecell-18beb`,
+tópico `ofertas-mestrecell`). O app avisa disso na hora de pedir a permissão, e as
+ofertas ficam num canal separado que a pessoa pode silenciar em **Ajuda**.
+Como ligar e como enviar: **[docs/ENVIAR-OFERTAS.md](docs/ENVIAR-OFERTAS.md)**
+
 ## Próximos passos
 
 - Testar em 5–10 celulares reais com propaganda (ajustar pesos e o tempo de janela).

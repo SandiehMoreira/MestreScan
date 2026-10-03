@@ -12,13 +12,27 @@ import br.com.mestrecell.mestrescan.R
 import br.com.mestrecell.mestrescan.boot.BootLaunch
 
 object Alerts {
-    private const val CHANNEL_ID = "alerts"
+    const val CHANNEL_ALERTS = "alerts"
+    /** Canal separado: quem achar demais silencia só as ofertas, não os alertas. */
+    const val CHANNEL_OFFERS = "offers"
     private const val BOOT_NOTIFICATION_ID = 1001
 
-    fun bootSuspects(context: Context, suspects: List<BootLaunch>) {
-        if (!Permissions.hasNotifications(context)) return
-        ensureChannel(context)
+    fun ensureChannels(context: Context) {
+        val manager = context.getSystemService(NotificationManager::class.java) ?: return
+        manager.createNotificationChannel(
+            NotificationChannel(CHANNEL_ALERTS, "Alertas de segurança", NotificationManager.IMPORTANCE_HIGH)
+                .apply { description = "Avisa quando um app abre propaganda sozinho" }
+        )
+        manager.createNotificationChannel(
+            NotificationChannel(
+                CHANNEL_OFFERS,
+                "Ofertas da ${context.getString(R.string.brand_store)}",
+                NotificationManager.IMPORTANCE_DEFAULT,
+            ).apply { description = "Promoções e novidades da loja" }
+        )
+    }
 
+    fun bootSuspects(context: Context, suspects: List<BootLaunch>) {
         val first = suspects.minBy { it.secondsAfterBoot }
         val title = if (suspects.size == 1) {
             "Achamos quem abre propaganda ao ligar"
@@ -27,34 +41,49 @@ object Alerts {
         }
         val text = "${first.label} abriu ${first.secondsAfterBoot} s depois de ligar" +
             (if (first.adScreen) " (tela de propaganda)." else ".") + " Toque para ver e remover."
+        val open = Intent(context, MainActivity::class.java)
+            .putExtra(MainActivity.EXTRA_OPEN, MainActivity.OPEN_BOOT)
+        show(context, CHANNEL_ALERTS, BOOT_NOTIFICATION_ID, title, text, open, NotificationCompat.PRIORITY_HIGH)
+    }
 
-        val open = PendingIntent.getActivity(
+    /** Oferta recebida com o app aberto (com o app fechado, o próprio Firebase mostra). */
+    fun offer(context: Context, title: String, text: String, extras: Map<String, String>) {
+        val open = Intent(context, MainActivity::class.java)
+        extras.forEach { (key, value) -> open.putExtra(key, value) }
+        show(context, CHANNEL_OFFERS, (System.currentTimeMillis() % Int.MAX_VALUE).toInt(), title, text, open,
+            NotificationCompat.PRIORITY_DEFAULT)
+    }
+
+    private fun show(
+        context: Context,
+        channel: String,
+        id: Int,
+        title: String,
+        text: String,
+        intent: Intent,
+        priority: Int,
+    ) {
+        if (!Permissions.hasNotifications(context)) return
+        ensureChannels(context)
+        val pending = PendingIntent.getActivity(
             context,
-            0,
-            Intent(context, MainActivity::class.java)
-                .putExtra(MainActivity.EXTRA_OPEN, MainActivity.OPEN_BOOT)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),
+            id,
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.drawable.ic_stat_shield)
             .setContentTitle(title)
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(open)
+            .setPriority(priority)
+            .setContentIntent(pending)
             .setAutoCancel(true)
             .build()
         try {
-            NotificationManagerCompat.from(context).notify(BOOT_NOTIFICATION_ID, notification)
+            NotificationManagerCompat.from(context).notify(id, notification)
         } catch (e: SecurityException) {
             // Permissão retirada entre a checagem e o envio.
         }
-    }
-
-    private fun ensureChannel(context: Context) {
-        val channel = NotificationChannel(CHANNEL_ID, "Alertas de segurança", NotificationManager.IMPORTANCE_HIGH)
-            .apply { description = "Avisa quando um app abre propaganda sozinho" }
-        context.getSystemService(NotificationManager::class.java)?.createNotificationChannel(channel)
     }
 }

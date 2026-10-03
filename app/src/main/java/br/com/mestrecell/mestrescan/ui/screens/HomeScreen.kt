@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,7 +31,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +52,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.mestrecell.mestrescan.R
+import br.com.mestrecell.mestrescan.data.AppPrefs
 import br.com.mestrecell.mestrescan.system.Permissions
 import br.com.mestrecell.mestrescan.system.SystemActions
 import br.com.mestrecell.mestrescan.ui.MainViewModel
@@ -62,13 +69,48 @@ import br.com.mestrecell.mestrescan.ui.theme.RiskColors
 @Composable
 fun HomeScreen(state: UiState, viewModel: MainViewModel) {
     val context = LocalContext.current
+    val prefs = remember { AppPrefs(context) }
+    var showNotificationsInfo by remember { mutableStateOf(false) }
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     fun startScan() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !Permissions.hasNotifications(context)) {
-            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        // Na primeira vez, avisa para que servem as notificações antes de pedir.
+        if (!prefs.notificationsInfoShown) {
+            showNotificationsInfo = true
+            return
         }
         viewModel.scan()
+    }
+
+    if (showNotificationsInfo) {
+        val alreadyAllowed = Permissions.hasNotifications(context)
+        fun close(askPermission: Boolean) {
+            prefs.notificationsInfoShown = true
+            showNotificationsInfo = false
+            if (askPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !alreadyAllowed) {
+                notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            viewModel.scan()
+        }
+        AlertDialog(
+            onDismissRequest = { close(askPermission = false) },
+            title = { Text("Ative as notificações") },
+            text = {
+                Text(
+                    "O MestreScan avisa quando um app suspeito aparecer e também manda ofertas da " +
+                        "${stringResource(R.string.brand_store)}. Se quiser, você pode silenciar só as " +
+                        "ofertas depois, na tela de Ajuda."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { close(askPermission = true) }) {
+                    Text(if (alreadyAllowed) "Entendi" else "Ativar")
+                }
+            },
+            dismissButton = if (alreadyAllowed) null else {
+                { TextButton(onClick = { close(askPermission = false) }) { Text("Agora não") } }
+            },
+        )
     }
 
     ScreenFrame(title = null, onBack = null) {

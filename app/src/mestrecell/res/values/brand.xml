@@ -7,5 +7,7 @@
     <string name="brand_address">Rua Santa Bertila Boscardin, 250 — Santa Felicidade, Curitiba - PR</string>
     <string name="brand_instagram">@mestre_damaca</string>
     <string name="brand_whatsapp_display">(41) 99166-3168</string>
+    <!-- Tópico do Firebase para as ofertas desta loja (white label: um por marca) -->
+    <string name="brand_offers_topic" translatable="false">ofertas-mestrecell</string>
     <string name="brand_whatsapp_message">Olá! Vim pelo app MestreScan e meu celular está com propaganda/vírus.</string>
 </resources>

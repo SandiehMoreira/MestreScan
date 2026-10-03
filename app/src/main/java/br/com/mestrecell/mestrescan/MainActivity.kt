@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import br.com.mestrecell.mestrescan.system.Offers
 import br.com.mestrecell.mestrescan.ui.MainViewModel
 import br.com.mestrecell.mestrescan.ui.MestreScanApp
 import br.com.mestrecell.mestrescan.ui.theme.MestreScanTheme
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleIntent(intent: Intent?) {
+        if (Offers.handleTap(this, intent)) return
         if (intent?.getStringExtra(EXTRA_OPEN) == OPEN_BOOT) viewModel.openBootTimeline()
     }
 

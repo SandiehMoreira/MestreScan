@@ -39,6 +39,19 @@ object SystemActions {
             Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),
         )
 
+    fun openLink(context: Context, uri: Uri) = start(context, Intent(Intent.ACTION_VIEW, uri))
+
+    /** Tela do Android para silenciar só as ofertas, mantendo os alertas. */
+    fun openOffersChannelSettings(context: Context) =
+        start(
+            context,
+            Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                .putExtra(Settings.EXTRA_CHANNEL_ID, Alerts.CHANNEL_OFFERS),
+            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName),
+        )
+
     /** A lista de administradores não tem atalho oficial; tentamos os caminhos conhecidos. */
     fun openDeviceAdminSettings(context: Context) =
         start(

@@ -10,6 +10,11 @@ class AppPrefs(context: Context) {
         get() = prefs.getStringSet(KEY_TRUSTED, emptySet()).orEmpty().toSet()
         set(value) = prefs.edit().putStringSet(KEY_TRUSTED, value).apply()
 
+    /** Já mostramos o aviso de notificações (alertas + ofertas da loja). */
+    var notificationsInfoShown: Boolean
+        get() = prefs.getBoolean(KEY_NOTIFICATIONS_INFO, false)
+        set(value) = prefs.edit().putBoolean(KEY_NOTIFICATIONS_INFO, value).apply()
+
     val lastScan: LastScan?
         get() {
             val at = prefs.getLong(KEY_SCAN_AT, 0L)
@@ -29,6 +34,7 @@ class AppPrefs(context: Context) {
 
     private companion object {
         const val KEY_TRUSTED = "trusted"
+        const val KEY_NOTIFICATIONS_INFO = "notifications_info_shown"
         const val KEY_SCAN_AT = "last_scan_at"
         const val KEY_SCAN_DANGER = "last_scan_danger"
         const val KEY_SCAN_SUSPECT = "last_scan_suspect"

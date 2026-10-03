@@ -6,6 +6,12 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+// Firebase (ofertas por notificação): só liga quando o arquivo do Firebase existir.
+// Ver docs/ENVIAR-OFERTAS.md.
+if (file("google-services.json").exists() || file("src/mestrecell/google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 // Chave de assinatura da versão final. Fica fora do git (ver docs/PUBLICAR-DOWNLOAD.md).
 val keystoreFile = rootProject.file("keystore.properties")
 val keystoreProps = Properties().apply {
@@ -82,4 +88,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.work:work-runtime-ktx:2.9.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-messaging")
 }

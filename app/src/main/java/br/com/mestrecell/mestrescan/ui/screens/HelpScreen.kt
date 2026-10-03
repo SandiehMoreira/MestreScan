@@ -1,9 +1,14 @@
 package br.com.mestrecell.mestrescan.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import br.com.mestrecell.mestrescan.system.SystemActions
 import br.com.mestrecell.mestrescan.ui.MainViewModel
 import br.com.mestrecell.mestrescan.ui.ScreenFrame
 import br.com.mestrecell.mestrescan.ui.SectionCard
@@ -37,6 +42,21 @@ fun HelpScreen(viewModel: MainViewModel) {
                 Text("• Mantenha o Play Protect ligado (Play Store › seu perfil › Play Protect).")
                 Text("• Desconfie de apps \"limpadores\", \"aceleradores\" e \"VPN grátis\".")
                 Text("• Não toque em anúncios que dizem que seu celular está com vírus.")
+            }
+        }
+        item {
+            val context = LocalContext.current
+            SectionCard {
+                Text("Notificações", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(
+                    "Os alertas de segurança e as ofertas da loja chegam em canais separados. " +
+                        "Você pode silenciar só as ofertas e continuar recebendo os alertas.",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                OutlinedButton(
+                    onClick = { SystemActions.openOffersChannelSettings(context) },
+                    modifier = Modifier.fillMaxWidth(),
+                ) { Text("Silenciar ofertas") }
             }
         }
         item { WhatsAppCta() }
