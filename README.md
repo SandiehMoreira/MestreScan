@@ -91,7 +91,8 @@ em `https://github.com/SandiehMoreira/MestreScan/releases/latest/download/Mestre
 A loja pode mandar ofertas para quem tem o app (Firebase, projeto `mestrecell-18beb`,
 tópico `ofertas-mestrecell`). O app avisa disso na hora de pedir a permissão, e as
 ofertas ficam num canal separado que a pessoa pode silenciar em **Ajuda**.
-Como ligar e como enviar: **[docs/ENVIAR-OFERTAS.md](docs/ENVIAR-OFERTAS.md)**
+Passo a passo: **[docs/NOTIFICACOES-DO-MESTRESCAN.md](docs/NOTIFICACOES-DO-MESTRESCAN.md)**
+(versão técnica: [docs/ENVIAR-OFERTAS.md](docs/ENVIAR-OFERTAS.md))
 
 ## Próximos passos
 
