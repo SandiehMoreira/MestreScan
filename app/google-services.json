@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "986656404194",
+    "project_id": "mestrecell-18beb",
+    "storage_bucket": "mestrecell-18beb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986656404194:android:91ee190d7ad36f528564bb",
+        "android_client_info": {
+          "package_name": "br.com.mestrecell.mestrescan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANOUrxNKV-XwgVZKummfzyEGXgy4wlqbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

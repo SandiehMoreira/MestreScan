@@ -26,8 +26,8 @@ android {
         applicationId = "br.com.mestrecell.mestrescan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.1.1"
+        versionCode = 3
+        versionName = "0.2.0"
     }
 
     // Cada assistência (white label) é um "sabor": nome, logo, cores e WhatsApp
